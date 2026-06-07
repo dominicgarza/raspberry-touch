@@ -40,9 +40,11 @@ body {
   background: #1a1a2e;
   color: #eee;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   font-family: sans-serif;
   position: relative;
   overflow: hidden;
 }
+

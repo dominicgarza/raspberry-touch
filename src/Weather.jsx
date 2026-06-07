@@ -1,19 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import useWeather from './useWeather'
 
-// Get the current weather for a specific location
-// using the Open-Meteo API
-// https://open-meteo.com/en/docs
-
-// Portland, OR 97209
-const LAT = 45.5231
-const LON = -122.6765
-
-const API_URL =
-  `https://api.open-meteo.com/v1/forecast` +
-  `?latitude=${LAT}&longitude=${LON}` +
-  `&current=temperature_2m,apparent_temperature,precipitation_probability,weather_code` +
-  `&temperature_unit=fahrenheit` +
-  `&timezone=America%2FLos_Angeles`;
+const TEN_MINUTES = 10 * 60 * 1000
 
 // WMO Weather interpretation codes
 // https://open-meteo.com/en/docs#weathervariables
@@ -45,17 +33,11 @@ const WMO_DESCRIPTIONS = {
 }
 
 const Weather = () => {
-  const [weather, setWeather] = useState(null)
-  const [error, setError] = useState(null)
+  const { weather, error, updateWeather } = useWeather()
 
   useEffect(() => {
-    fetch(API_URL)
-      .then((res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`)
-        return res.json()
-      })
-      .then((data) => setWeather(data.current))
-      .catch((err) => setError(err.message))
+    const interval = setInterval(updateWeather, TEN_MINUTES)
+    return () => clearInterval(interval)
   }, [])
 
   if (error) return <p>Error: {error}</p>
