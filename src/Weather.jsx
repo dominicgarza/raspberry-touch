@@ -1,5 +1,9 @@
 import { useEffect, useState } from 'react'
 
+// Get the current weather for a specific location
+// using the Open-Meteo API
+// https://open-meteo.com/en/docs
+
 // Portland, OR 97209
 const LAT = 45.5231
 const LON = -122.6765
